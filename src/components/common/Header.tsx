@@ -63,7 +63,7 @@ export default function Header(props: { currentUser: User }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-indigo-900/20">
+    <header className="bg-indigo-600/50">
       <nav
         className="mx-auto flex  items-center justify-between p-6 lg:px-8"
         aria-label="Global"
