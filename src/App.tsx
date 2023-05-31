@@ -1,13 +1,12 @@
 import React from "react";
+import AppRouter from "./router/AppRouter";
+import Header from "./components/common/Header";
 
 function App() {
   return (
     <div className="App">
-      <header className="text-green-400 text-3xl">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
+      <Header />
+      <AppRouter />
     </div>
   );
 }
