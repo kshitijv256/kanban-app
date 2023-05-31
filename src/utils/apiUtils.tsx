@@ -50,3 +50,7 @@ export const request = async (
 export const login = (username: string, password: string) => {
   return request("auth-token/", "POST", { username, password });
 };
+
+export const me = () => {
+  return request("users/me/", "GET");
+};
