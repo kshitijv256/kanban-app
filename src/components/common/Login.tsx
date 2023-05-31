@@ -26,48 +26,68 @@ export default function Login() {
     }
   };
   return (
-    <div>
-      <h1 className="my-4 text-2xl font-bold text-green-400">Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label
-            htmlFor="username"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <label
-            htmlFor="password"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="px-2 py-1.5 mt-2 rounded bg-cyan-500 text-white hover:bg-cyan-600"
-          >
-            Login
-          </button>
-        </div>
-      </form>
+    <div className="flex justify-center">
+      <div>
+        <h1 className="my-4 text-2xl font-bold text-indigo-400">Login</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4 grid grid-cols-1 gap-6">
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                className="mt-1
+                        block
+                        w-full
+                        rounded-md
+                        border-gray-300
+                        shadow-sm
+                        outline-none
+                        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                className="mt-1
+                        block
+                        w-full
+                        rounded-md
+                        border-gray-300
+                        shadow-sm
+                        outline-none
+                        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-2 py-1.5 mt-2 rounded bg-indigo-500 text-white hover:bg-indigo-600"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
