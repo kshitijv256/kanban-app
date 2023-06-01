@@ -3,6 +3,7 @@ import { Board } from "../../types/Board";
 import { getBoard } from "../../utils/apiUtils";
 import Modal from "../common/Modal";
 import EditBoard from "./EditBoard";
+import DeleteBoard from "./DeleteBoard";
 
 const fetchBoard = async (
   board_id: number,
@@ -53,7 +54,10 @@ export default function BoardUI(props: { board_id: number }) {
         <EditBoard board_id={board_id} board={board} />
       </Modal>
       <Modal open={deleteBoard} closeCB={() => setDeleteBoard(false)}>
-        <div></div>
+        <DeleteBoard
+          board_id={board_id}
+          closeCB={() => setDeleteBoard(false)}
+        />
       </Modal>
     </div>
   );
