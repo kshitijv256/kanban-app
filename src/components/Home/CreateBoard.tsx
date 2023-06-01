@@ -33,13 +33,13 @@ export default function CreateForm() {
     }
   };
   return (
-    <div className="w-full max-w-lg divide-y">
-      <h1>Create Board</h1>
+    <div className="w-full max-w-lg bg-col4">
+      <h1 className="text-2xl font-bold text-col1">Create Board</h1>
       <form className="py-4" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
             htmlFor="title"
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-col2 text-sm font-bold mb-2"
           >
             Title
           </label>
@@ -59,7 +59,7 @@ export default function CreateForm() {
         <div className="mb-4">
           <label
             htmlFor="description"
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-col2 text-sm font-bold mb-2"
           >
             Description
           </label>
@@ -77,9 +77,9 @@ export default function CreateForm() {
         </div>
         <button
           type="submit"
-          className="bg-cyan-500 hover:bg-cyan-600 rounded py-2 px-4 text-white"
+          className="bg-col1/90 hover:bg-col1 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Create Board
+          Create
         </button>
       </form>
     </div>

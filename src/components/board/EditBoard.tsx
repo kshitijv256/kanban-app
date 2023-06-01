@@ -30,7 +30,7 @@ export default function EditBoard(props: { board_id: number; board: Board }) {
   };
   return (
     <div className="bg-col4">
-      <h1 className="text-xl font-bold text-col1">Edit Board</h1>
+      <h1 className="text-2xl font-bold text-col1">Edit Board</h1>
       <form className="py-4" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
