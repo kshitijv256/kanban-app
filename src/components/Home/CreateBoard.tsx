@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { navigate } from "raviger";
-import { Board, Error, validateBoard } from "../../types/common";
+import { Error } from "../../types/common";
+import { Board, validateBoard } from "../../types/Board";
 import { createBoard } from "../../utils/apiUtils";
 
 export default function CreateForm() {

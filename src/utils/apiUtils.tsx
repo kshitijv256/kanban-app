@@ -41,24 +41,45 @@ export const request = async (
     } catch (err) {
       return {};
     }
+  } else if (response.status === 400) {
+    const error = await response.json();
+    throw error;
   } else {
     const errorMessage = await response.text();
     throw new Error(errorMessage);
   }
 };
 
+// user related api calls
 export const login = (username: string, password: string) => {
   return request("auth-token/", "POST", { username, password });
+};
+
+export const signup = (data: any) => {
+  return request("auth/registration/", "POST", data);
 };
 
 export const me = () => {
   return request("users/me/", "GET");
 };
 
+// board related api calls
 export const createBoard = (data: any) => {
   return request("boards/", "POST", data);
 };
 
 export const getBoards = (limit: number, offset: number) => {
   return request("boards/", "GET", { limit, offset });
+};
+
+export const getBoard = (id: number) => {
+  return request(`boards/${id}/`, "GET");
+};
+
+export const updateBoard = (id: number, data: any) => {
+  return request(`boards/${id}/`, "PUT", data);
+};
+
+export const deleteBoard = (id: number) => {
+  return request(`boards/${id}/`, "DELETE");
 };

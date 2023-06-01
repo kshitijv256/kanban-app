@@ -1,4 +1,4 @@
-import { navigate } from "raviger";
+import { Link, navigate } from "raviger";
 import React, { useEffect, useState } from "react";
 import { login } from "../../utils/apiUtils";
 
@@ -28,13 +28,13 @@ export default function Login() {
   return (
     <div className="flex justify-center">
       <div>
-        <h1 className="my-4 text-2xl font-bold text-indigo-400">Login</h1>
+        <h1 className="my-4 text-2xl font-bold text-col1">Login</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4 grid grid-cols-1 gap-6">
             <div>
               <label
                 htmlFor="username"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-300 text-sm font-bold mb-2"
               >
                 Username
               </label>
@@ -49,7 +49,7 @@ export default function Login() {
                         border-gray-300
                         shadow-sm
                         outline-none
-                        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        focus:border-col2 focus:ring focus:ring-col2/70 focus:ring-opacity-50"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -58,7 +58,7 @@ export default function Login() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-300 text-sm font-bold mb-2"
               >
                 Password
               </label>
@@ -73,20 +73,24 @@ export default function Login() {
                         border-gray-300
                         shadow-sm
                         outline-none
-                        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        focus:border-col2 focus:ring focus:ring-col2/70 focus:ring-opacity-50"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+
             <button
               type="submit"
-              className="px-2 py-1.5 mt-2 rounded bg-indigo-500 text-white hover:bg-indigo-600"
+              className="px-2 py-1.5 mt-2 rounded-md bg-col2/60 text-white hover:bg-col2"
             >
               Login
             </button>
           </div>
         </form>
+        <Link href="/signup" className="text-sm text-col2">
+          Don't have an account? Sign up
+        </Link>
       </div>
     </div>
   );
