@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <Header currentUser={currentUser} />
-      <AppRouter />
+      <AppRouter currentUser={currentUser} />
     </div>
   );
 }

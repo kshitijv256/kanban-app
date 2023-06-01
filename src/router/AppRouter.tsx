@@ -3,10 +3,12 @@ import { useRoutes } from "raviger";
 import Login from "../components/common/Login";
 import NotFound from "../components/common/NotFound";
 import Home from "../components/Home";
+import { User } from "../types/User";
 
-export default function AppRouter() {
+export default function AppRouter(props: { currentUser: User }) {
+  const { currentUser } = props;
   const routes = {
-    "/": () => <Home />,
+    "/": () => <Home currentUser={currentUser} />,
     "/login": () => <Login />,
     "*": () => <NotFound />,
   };
