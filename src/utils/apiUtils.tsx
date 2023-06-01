@@ -54,3 +54,11 @@ export const login = (username: string, password: string) => {
 export const me = () => {
   return request("users/me/", "GET");
 };
+
+export const createBoard = (data: any) => {
+  return request("boards/", "POST", data);
+};
+
+export const getBoards = (limit: number, offset: number) => {
+  return request("boards/", "GET", { limit, offset });
+};
