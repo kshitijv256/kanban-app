@@ -52,11 +52,15 @@ export default function Home(props: { currentUser: User }) {
       </button>
       <div className="flex flex-col gap-4 p-4 w-fit">
         {boards.map((board) => (
-          <div key={board.id} className="bg-col2 rounded p-2">
+          <Link
+            href={`/board/${board.id}`}
+            key={board.id}
+            className="bg-col2 rounded p-2"
+          >
             {board.title}
             <br />
             {board.description}
-          </div>
+          </Link>
         ))}
       </div>
       <Modal open={newBoard} closeCB={() => setNewBoard(false)}>
