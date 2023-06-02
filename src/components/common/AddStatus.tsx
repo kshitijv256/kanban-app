@@ -7,7 +7,8 @@ import { Status, validateStatus } from "../../types/Status";
 export default function AddStatus(props: { board_id: number }) {
   const [status, setStatus] = useState<Status>({
     title: "",
-    description: `${props.board_id}`,
+    description: "",
+    board: props.board_id,
   });
   const [errors, setErrors] = useState<Error<Status>>({});
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +55,26 @@ export default function AddStatus(props: { board_id: number }) {
           />
           {errors.title && (
             <p className="text-red-500 text-xs italic">{errors.title}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="title"
+            className="block text-col2 text-sm font-bold mb-2"
+          >
+            Description
+          </label>
+          <input
+            type="text"
+            name="description"
+            id="description"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Board Description"
+            value={status.description}
+            onChange={handleChange}
+          />
+          {errors.description && (
+            <p className="text-red-500 text-xs italic">{errors.description}</p>
           )}
         </div>
         <button

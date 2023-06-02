@@ -23,7 +23,7 @@ const fetchStatuses = async (
 ) => {
   const data = await getStatuses(100, 0);
   const filteredData = data.results.filter(
-    (status: Status) => status.description === `${board_id}`
+    (status: Status) => status.board === board_id
   );
   filteredData.sort((a: Status, b: Status) => {
     if (a.id && b.id) {
@@ -42,6 +42,7 @@ export default function BoardUI(props: { board_id: number }) {
     id: 0,
     title: "",
     description: "",
+    board: board_id,
   });
 
   // Modal States
@@ -98,7 +99,13 @@ export default function BoardUI(props: { board_id: number }) {
             className="inline-block bg-back2 rounded-md p-4 m-2 min-w-[300px] w-3/12"
           >
             <div className="flex justify-between">
-              <p className="text-col2 font-bold text-2xl">{status.title}</p>
+              <div>
+                <p className="text-col2 font-bold text-2xl">{status.title}</p>
+
+                <p className="text-col3 font-semibold text-lg">
+                  {status.description}
+                </p>
+              </div>
               <div>
                 <button
                   className="bg-col2 p-2 m-2 rounded-md font-semibold"

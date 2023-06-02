@@ -3,7 +3,8 @@ import { Error } from "./common";
 export type Status = {
   id?: number;
   title: string;
-  description: string; // Storing board id here
+  description: string;
+  board: number; // board id
 };
 
 export const validateStatus = (status: Status) => {
@@ -13,6 +14,9 @@ export const validateStatus = (status: Status) => {
   }
   if (status.title.length > 100) {
     errors.title = "Title should be less than 100 characters";
+  }
+  if (status.description.length < 1) {
+    errors.description = "Description is required";
   }
   return errors;
 };
