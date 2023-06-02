@@ -95,33 +95,34 @@ export default function BoardUI(props: { board_id: number }) {
         {statuses.map((status: Status) => (
           <div
             key={status.id}
-            className="inline-block bg-col4 rounded-md p-4 m-2 min-w-[300px]"
+            className="inline-block bg-back2 rounded-md p-4 m-2 min-w-[300px] w-3/12"
           >
-            <div className="flex">
-              <p className="text-col1/70 text-lg">{status.title}</p>
-
-              <button
-                className="bg-col1 p-2 m-2 rounded-md font-semibold"
-                onClick={() => {
-                  if (status.id) {
-                    setCurrentStatus(status);
-                    setEditStatus(true);
-                  }
-                }}
-              >
-                Edit
-              </button>
-              <button
-                className="bg-col1 p-2 m-2 rounded-md font-semibold"
-                onClick={() => {
-                  if (status.id) {
-                    setCurrentStatus(status);
-                    setDeleteStatus(true);
-                  }
-                }}
-              >
-                Delete
-              </button>
+            <div className="flex justify-between">
+              <p className="text-col2 font-bold text-2xl">{status.title}</p>
+              <div>
+                <button
+                  className="bg-col2 p-2 m-2 rounded-md font-semibold"
+                  onClick={() => {
+                    if (status.id) {
+                      setCurrentStatus(status);
+                      setEditStatus(true);
+                    }
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="bg-col2 p-2 m-2 rounded-md font-semibold"
+                  onClick={() => {
+                    if (status.id) {
+                      setCurrentStatus(status);
+                      setDeleteStatus(true);
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ))}
