@@ -83,3 +83,26 @@ export const updateBoard = (id: number, data: any) => {
 export const deleteBoard = (id: number) => {
   return request(`boards/${id}/`, "DELETE");
 };
+
+// status related api calls
+export const createStatus = (data: any) => {
+  return request("status/", "POST", data);
+};
+
+export const getStatuses = (limit: number, offset: number) => {
+  return request("status/", "GET", { limit, offset });
+};
+
+export const getStatus = (id: number) => {
+  return request(`status/${id}/`, "GET");
+};
+
+export const updateStatus = (id: number, data: any) => {
+  return request(`status/${id}/`, "PUT", data);
+};
+
+export const deleteStatus = (id: number) => {
+  return request(`status/${id}/`, "DELETE");
+};
+
+// task related api calls
