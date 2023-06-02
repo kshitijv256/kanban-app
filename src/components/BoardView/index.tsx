@@ -8,6 +8,7 @@ import AddStatus from "../common/AddStatus";
 import { Status } from "../../types/Status";
 import DeleteStatus from "./DeleteStatus";
 import EditStatus from "./EditStatus";
+import AddTask from "./AddTask";
 
 const fetchBoard = async (
   board_id: number,
@@ -51,6 +52,8 @@ export default function BoardUI(props: { board_id: number }) {
   const [addStatus, setAddStatus] = useState<boolean>(false);
   const [editStatus, setEditStatus] = useState<boolean>(false);
   const [deleteStatus, setDeleteStatus] = useState<boolean>(false);
+  const [addTask, setAddTask] = useState<boolean>(false);
+  const [deleteTask, setDeleteTask] = useState<boolean>(false);
 
   useEffect(() => {
     fetchBoard(board_id, setBoard);
@@ -131,6 +134,17 @@ export default function BoardUI(props: { board_id: number }) {
                 </button>
               </div>
             </div>
+            <button
+              className="bg-col2 p-2 m-2 rounded-md font-semibold"
+              onClick={() => {
+                if (status.id) {
+                  setCurrentStatus(status);
+                  setAddTask(true);
+                }
+              }}
+            >
+              Add Task
+            </button>
           </div>
         ))}
       </div>
@@ -155,6 +169,9 @@ export default function BoardUI(props: { board_id: number }) {
           status_id={currentStatus.id || 0}
           closeCB={() => setDeleteStatus(false)}
         />
+      </Modal>
+      <Modal open={addTask} closeCB={() => setAddTask(false)}>
+        <AddTask board_pk={board_id} status_id={currentStatus.id || 0} />
       </Modal>
     </div>
   );

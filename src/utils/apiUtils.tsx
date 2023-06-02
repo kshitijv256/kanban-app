@@ -106,3 +106,6 @@ export const deleteStatus = (id: number) => {
 };
 
 // task related api calls
+export const createTask = (board_pk: number, data: any) => {
+  return request(`boards/${board_pk}/tasks/`, "POST", data);
+};

@@ -9,7 +9,7 @@ export type Task = {
   status: number; // status id
   title: string;
   description: string;
-  due_date?: string;
+  due_date: string;
   board?: number; // board id
 };
 
@@ -24,7 +24,8 @@ export const validateTask = (task: Task) => {
   if (task.description.length < 1) {
     errors.description = "Description is required";
   }
-  if (task.due_date && Date.parse(task.due_date) < Date.now() - 86400000) {
+  if (Date.parse(task.due_date) < Date.now() - 86400000) {
     errors.due_date = "Due date should be in the future";
   }
+  return errors;
 };
