@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Board } from "../../types/Board";
-import { getBoard, getStatuses } from "../../utils/apiUtils";
+import { getBoard, getStatuses, getTasks } from "../../utils/apiUtils";
 import Modal from "../common/Modal";
 import EditBoard from "./EditBoard";
 import DeleteBoard from "./DeleteBoard";
@@ -9,6 +9,8 @@ import { Status } from "../../types/Status";
 import DeleteStatus from "./DeleteStatus";
 import EditStatus from "./EditStatus";
 import AddTask from "./AddTask";
+import DeleteTask from "./Deletetask";
+import { Task } from "../../types/Task";
 
 const fetchBoard = async (
   board_id: number,
@@ -35,16 +37,26 @@ const fetchStatuses = async (
   setStatuses(filteredData);
 };
 
+const fetchTasks = async (
+  board_id: number,
+  setTasks: (tasks: Task[]) => void
+) => {
+  const data = await getTasks(board_id, 100, 0);
+  setTasks(data.results);
+};
+
 export default function BoardUI(props: { board_id: number }) {
   const { board_id } = props;
   const [board, setBoard] = useState<Board>({} as Board);
   const [statuses, setStatuses] = useState<Status[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [currentStatus, setCurrentStatus] = useState<Status>({
     id: 0,
     title: "",
     description: "",
     board: board_id,
   });
+  const [currentTask, setCurrentTask] = useState<number>(0);
 
   // Modal States
   const [edit, setEdit] = useState<boolean>(false);
@@ -58,6 +70,7 @@ export default function BoardUI(props: { board_id: number }) {
   useEffect(() => {
     fetchBoard(board_id, setBoard);
     fetchStatuses(board_id, setStatuses);
+    fetchTasks(board_id, setTasks);
   }, [board_id]);
 
   return (
@@ -95,11 +108,11 @@ export default function BoardUI(props: { board_id: number }) {
           Add Status
         </button>
       </div>
-      <div className="overflow-auto whitespace-nowrap">
+      <div className="overflow-auto whitespace-nowrap flex">
         {statuses.map((status: Status) => (
           <div
             key={status.id}
-            className="inline-block bg-back2 rounded-md p-4 m-2 min-w-[300px] w-3/12"
+            className="inline-block bg-back2 rounded-md p-4 m-2 min-w-[300px] w-3/12 h-min"
           >
             <div className="flex justify-between">
               <div>
@@ -145,6 +158,36 @@ export default function BoardUI(props: { board_id: number }) {
             >
               Add Task
             </button>
+            <div>
+              {tasks.map(
+                (task: Task) =>
+                  task.status_object?.id === status.id && (
+                    <div key={task.id} className="bg-col3 rounded-md p-4 m-2">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="text-col2 font-bold text-2xl">
+                            {task.title}
+                          </p>
+                          <p className="text-col3 font-semibold text-lg">
+                            {task.description}
+                          </p>
+                        </div>
+                        <div>
+                          <button
+                            className="bg-col2 p-2 m-2 rounded-md font-semibold"
+                            onClick={() => {
+                              setCurrentTask(task.id || 0);
+                              setDeleteTask(true);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -172,6 +215,13 @@ export default function BoardUI(props: { board_id: number }) {
       </Modal>
       <Modal open={addTask} closeCB={() => setAddTask(false)}>
         <AddTask board_pk={board_id} status_id={currentStatus.id || 0} />
+      </Modal>
+      <Modal open={deleteTask} closeCB={() => setDeleteTask(false)}>
+        <DeleteTask
+          board_id={board_id}
+          task_id={currentTask || 0}
+          closeCB={() => setDeleteTask(false)}
+        />
       </Modal>
     </div>
   );

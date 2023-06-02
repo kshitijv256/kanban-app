@@ -109,3 +109,19 @@ export const deleteStatus = (id: number) => {
 export const createTask = (board_pk: number, data: any) => {
   return request(`boards/${board_pk}/tasks/`, "POST", data);
 };
+
+export const getTasks = (board_pk: number, limit: number, offset: number) => {
+  return request(`boards/${board_pk}/tasks/`, "GET", { limit, offset });
+};
+
+export const getTask = (board_pk: number, id: number) => {
+  return request(`boards/${board_pk}/tasks/${id}/`, "GET");
+};
+
+export const updateTask = (board_pk: number, id: number, data: any) => {
+  return request(`boards/${board_pk}/tasks/${id}/`, "PUT", data);
+};
+
+export const deleteTask = (board_pk: number, id: number) => {
+  return request(`boards/${board_pk}/tasks/${id}/`, "DELETE");
+};
