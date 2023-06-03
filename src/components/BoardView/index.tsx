@@ -11,6 +11,8 @@ import EditStatus from "./EditStatus";
 import AddTask from "./AddTask";
 import DeleteTask from "./Deletetask";
 import { Task } from "../../types/Task";
+import { ItemsType } from "../../types/common";
+import Playground from "../../DnDComponent";
 
 const fetchBoard = async (
   board_id: number,
@@ -45,6 +47,27 @@ const fetchTasks = async (
   setTasks(data.results);
 };
 
+const filterTasksByStatus = (tasks: Task[], status_id: number) => {
+  const filteredTasks = tasks.filter(
+    (task: Task) => task.status_object?.id === status_id
+  );
+  return filteredTasks.map((task: Task) => `${task.id}`);
+};
+
+const filterTasks = (
+  tasks: Task[],
+  statuses: Status[],
+  setItems: (items: ItemsType) => void
+) => {
+  let items: ItemsType = {};
+  console.log(tasks);
+  statuses.forEach((status: Status) => {
+    items[`${status.id}`] = filterTasksByStatus(tasks, status.id || 0);
+  });
+  console.log(items);
+  setItems(items);
+};
+
 export default function BoardUI(props: { board_id: number }) {
   const { board_id } = props;
   const [board, setBoard] = useState<Board>({} as Board);
@@ -57,6 +80,7 @@ export default function BoardUI(props: { board_id: number }) {
     board: board_id,
   });
   const [currentTask, setCurrentTask] = useState<number>(0);
+  const [items, setItems] = useState<ItemsType | null>();
 
   // Modal States
   const [edit, setEdit] = useState<boolean>(false);
@@ -72,6 +96,12 @@ export default function BoardUI(props: { board_id: number }) {
     fetchStatuses(board_id, setStatuses);
     fetchTasks(board_id, setTasks);
   }, [board_id]);
+
+  useEffect(() => {
+    if (tasks.length > 0 && statuses.length > 0) {
+      filterTasks(tasks, statuses, setItems);
+    }
+  }, [tasks, statuses]);
 
   return (
     <div className="text-white p-4">
@@ -108,8 +138,8 @@ export default function BoardUI(props: { board_id: number }) {
           Add Status
         </button>
       </div>
-      <div className="overflow-auto whitespace-nowrap flex">
-        {statuses.map((status: Status) => (
+      <div className="overflow-auto whitespace-nowrap flex text-black">
+        {/* {statuses.map((status: Status) => (
           <div
             key={status.id}
             className="inline-block bg-back2 rounded-md p-4 m-2 min-w-[300px] w-3/12 h-min"
@@ -189,7 +219,8 @@ export default function BoardUI(props: { board_id: number }) {
               )}
             </div>
           </div>
-        ))}
+        ))} */}
+        {items && <Playground board_id={board_id} items={items} />}
       </div>
       {/* Modals */}
       <Modal open={edit} closeCB={() => setEdit(false)}>

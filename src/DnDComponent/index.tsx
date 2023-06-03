@@ -1,86 +1,168 @@
+import React, { useState } from "react";
 import {
   DndContext,
-  useDraggable,
-  useDroppable,
-  UniqueIdentifier,
+  DragOverlay,
+  closestCorners,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
   DragEndEvent,
+  DragStartEvent,
 } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
-export const Playground = () => {
-  const containers = ["A", "B", "C"];
-  const [parent, setParent] = useState<UniqueIdentifier | null>(null);
+import { Item } from "./SortableItem";
+import Container from "./Container";
+import { ItemsType } from "../types/common";
+import { getTask, updateTask } from "../utils/apiUtils";
+import { Task } from "../types/Task";
 
-  const item = <Draggable />;
-
-  return (
-    <DndContext onDragEnd={handleDragEnd}>
-      {parent === null ? item : null}
-
-      <div style={{ display: "flex" }}>
-        {containers.map((id) => (
-          <Droppable key={id} id={id}>
-            {parent === id ? item : "Drop here"}
-          </Droppable>
-        ))}
-      </div>
-    </DndContext>
-  );
-
-  function handleDragEnd(event: DragEndEvent) {
-    const { over } = event;
-
-    setParent(over ? over.id : null);
-  }
+const updateTaskStatus = async (
+  board_id: number,
+  task_id: number,
+  status_id: number
+) => {
+  const data: Task = await getTask(board_id, task_id);
+  const newTask = { ...data, status: status_id };
+  const res = await updateTask(board_id, task_id, newTask);
+  return res;
 };
 
-function Draggable() {
-  const { attributes, isDragging, transform, setNodeRef, listeners } =
-    useDraggable({
-      id: "draggable-item",
-    });
+export default function Playground(props: {
+  board_id: number;
+  items: ItemsType;
+}) {
+  const [items, setItems] = useState<ItemsType>(props.items);
+  const [activeId, setActiveId] = useState<string | null>();
 
-  return (
-    <button
-      ref={setNodeRef}
-      style={{
-        transform: CSS.Translate.toString(transform),
-        boxShadow: isDragging
-          ? "-1px 0 15px 0 rgba(34, 33, 81, 0.01), 0px 15px 15px 0 rgba(34, 33, 81, 0.25)"
-          : undefined,
-      }}
-      {...attributes}
-      {...listeners}
-    >
-      Drag me
-    </button>
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
   );
-}
-
-interface DroppableProps {
-  children: React.ReactNode;
-  id: string;
-}
-
-function Droppable({ id, children }: DroppableProps) {
-  const { isOver, setNodeRef } = useDroppable({ id });
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: 150,
-        height: 150,
-        border: "1px solid",
-        margin: 20,
-        borderColor: isOver ? "#4c9ffe" : "#EEE",
-      }}
-      ref={setNodeRef}
-    >
-      {children}
+    <div className="flex">
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        {Object.keys(items).map((id: string) => (
+          <Container key={id} id={id} items={items[id as keyof ItemsType]} />
+        ))}
+        <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+      </DndContext>
     </div>
   );
+
+  function findContainer(id: string) {
+    if (id in items) {
+      return id;
+    }
+
+    return Object.keys(items).find((key: string) => {
+      return items[key as keyof ItemsType].includes(id);
+    });
+  }
+
+  function handleDragStart(event: DragStartEvent) {
+    const { active } = event;
+    const { id } = active;
+
+    setActiveId(`${id}`);
+  }
+
+  function handleDragOver(event: any) {
+    const { active, over } = event;
+    const { id } = active;
+    const { id: overId } = over;
+
+    // Find the containers
+
+    const activeContainer = findContainer(id);
+    const overContainer = findContainer(overId);
+
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer === overContainer
+    ) {
+      return;
+    }
+    console.log(id, overId);
+    console.log("active", activeContainer);
+    console.log("over", overContainer);
+    updateTaskStatus(props.board_id, parseInt(id), parseInt(overContainer));
+
+    setItems((prev) => {
+      const activeItems = prev[activeContainer];
+      const overItems = prev[overContainer];
+
+      // Find the indexes for the items
+      const activeIndex = activeItems.indexOf(id);
+      const overIndex = overItems.indexOf(overId);
+
+      let newIndex;
+      if (overId in prev) {
+        // We're at the root droppable of a container
+        newIndex = overItems.length + 1;
+      } else {
+        const isBelowLastItem = over && overIndex === overItems.length - 1;
+
+        const modifier = isBelowLastItem ? 1 : 0;
+
+        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+      }
+
+      return {
+        ...prev,
+        [activeContainer]: [
+          ...prev[activeContainer].filter((item) => item !== active.id),
+        ],
+        [overContainer]: [
+          ...prev[overContainer].slice(0, newIndex),
+          items[activeContainer][activeIndex],
+          ...prev[overContainer].slice(newIndex, prev[overContainer].length),
+        ],
+      };
+    });
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    const { id } = active;
+    const { id: overId } = over || {};
+
+    const activeContainer = findContainer(`${id}`);
+    const overContainer = findContainer(`${overId}`);
+
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer !== overContainer
+    ) {
+      return;
+    }
+
+    const activeIndex = items[activeContainer].indexOf(`${active.id}`);
+    const overIndex = items[overContainer].indexOf(`${overId}`);
+
+    if (activeIndex !== overIndex) {
+      setItems((items) => ({
+        ...items,
+        [overContainer]: arrayMove(
+          items[overContainer],
+          activeIndex,
+          overIndex
+        ),
+      }));
+    }
+
+    setActiveId(null);
+  }
 }
