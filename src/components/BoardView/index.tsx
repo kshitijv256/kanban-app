@@ -59,11 +59,9 @@ const filterTasks = (
   setItems: (items: ItemsType) => void
 ) => {
   let items: ItemsType = {};
-  console.log(tasks);
   statuses.forEach((status: Status) => {
     items[`${status.id}`] = filterTasksByStatus(tasks, status.id || 0);
   });
-  console.log(items);
   setItems(items);
 };
 
@@ -86,7 +84,7 @@ export default function BoardUI(props: { board_id: number }) {
   }, [board_id]);
 
   useEffect(() => {
-    if (tasks.length > 0 && statuses.length > 0) {
+    if (tasks.length >= 0 && statuses.length > 0) {
       filterTasks(tasks, statuses, setItems);
     }
   }, [tasks, statuses]);

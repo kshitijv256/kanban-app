@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -35,6 +35,10 @@ export default function DnDComponent(props: {
 }) {
   const [items, setItems] = useState<ItemsType>(props.items);
   const [activeId, setActiveId] = useState<string | null>();
+
+  useEffect(() => {
+    setItems(props.items);
+  }, [props.items]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
