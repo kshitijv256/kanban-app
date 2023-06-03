@@ -29,7 +29,7 @@ const updateTaskStatus = async (
   return res;
 };
 
-export default function Playground(props: {
+export default function DnDComponent(props: {
   board_id: number;
   items: ItemsType;
 }) {

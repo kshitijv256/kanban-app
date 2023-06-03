@@ -8,7 +8,10 @@ import AddStatus from "../Status/AddStatus";
 import { Status } from "../../types/Status";
 import { Task } from "../../types/Task";
 import { ItemsType } from "../../types/common";
-import Playground from "../../DnDComponent";
+import DnDComponent from "../../DnDComponent";
+import addIcon from "../../assets/icons/add-col.svg";
+import editIcon from "../../assets/icons/edit.svg";
+import trashIcon from "../../assets/icons/trash.svg";
 
 const fetchBoard = async (
   board_id: number,
@@ -100,31 +103,33 @@ export default function BoardUI(props: { board_id: number }) {
             Description: {board.description}
           </p>
         </div>
-        <div>
+        <div className="flex h-min">
           <button
-            className="bg-col1 p-2 m-2 rounded-md font-semibold w-24"
+            className="p-2 m-2 hover:bg-col1/50 rounded"
             onClick={() => setEdit(true)}
           >
-            Edit
+            <img src={editIcon} alt="edit" className="w-8" />
           </button>
           <button
-            className="bg-col1 p-2 m-2 rounded-md font-semibold w-24"
+            className="p-2 m-2 hover:bg-col1/50 rounded"
             onClick={() => setDeleteBoard(true)}
           >
-            Delete
+            <img src={trashIcon} alt="delete" className="w-8" />
           </button>
         </div>
       </div>
-      <div>
+      <hr className="border-back2 border-2 my-4" />
+      <div className="flex items-center my-2">
+        <p className="text-3xl text-col2 font-bold">Stages</p>
         <button
-          className="bg-col1 p-2 m-2 rounded-md font-semibold"
+          className="rounded-md hover:bg-back2 p-2 ml-2"
           onClick={() => setAddStatus(true)}
         >
-          Add Status
+          <img src={addIcon} alt="add_status" className="w-8" />
         </button>
       </div>
       <div className="overflow-auto whitespace-nowrap flex">
-        {items && <Playground board_id={board_id} items={items} />}
+        {items && <DnDComponent board_id={board_id} items={items} />}
       </div>
       {/* Modals */}
       <Modal open={edit} closeCB={() => setEdit(false)}>
