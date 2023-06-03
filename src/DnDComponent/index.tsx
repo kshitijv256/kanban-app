@@ -57,9 +57,16 @@ export default function DnDComponent(props: {
         onDragEnd={handleDragEnd}
       >
         {Object.keys(items).map((id: string) => (
-          <Container key={id} id={id} items={items[id as keyof ItemsType]} />
+          <Container
+            key={id}
+            id={id}
+            board_id={props.board_id}
+            items={items[id as keyof ItemsType]}
+          />
         ))}
-        <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+        <DragOverlay>
+          {activeId ? <Item id={activeId} board_id={props.board_id} /> : null}
+        </DragOverlay>
       </DndContext>
     </div>
   );

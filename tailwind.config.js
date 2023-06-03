@@ -8,7 +8,7 @@ module.exports = {
         back2: "#2d3748",
         col1: "#ffb300",
         col2: "#3a9efd",
-        col3: "#3f4492",
+        col3: "#354796",
         col4: "#2a2b74",
         col5: "#1a1b4c",
       },

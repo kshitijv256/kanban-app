@@ -14,12 +14,9 @@ import { getStatus } from "../utils/apiUtils";
 import AddTask from "../components/Tasks/AddTask";
 import DeleteTask from "../components/Tasks/Deletetask";
 
-// const containerStyle = {
-//   background: "#dadada",
-//   padding: 10,
-//   margin: 10,
-//   flex: 1,
-// };
+import addRowIcon from "../assets/icons/add-row.svg";
+import editIcon from "../assets/icons/edit.svg";
+import trashIcon from "../assets/icons/trash.svg";
 
 const fetchStatus = async (
   status_id: number,
@@ -29,7 +26,11 @@ const fetchStatus = async (
   setStatus(data);
 };
 
-export default function Container(props: { id: any; items: string[] }) {
+export default function Container(props: {
+  id: any;
+  board_id: number;
+  items: string[];
+}) {
   const { id, items } = props;
   const [status, setStatus] = useState<Status>({} as Status);
   const [currentTask, setCurrentTask] = useState<number>(0);
@@ -48,7 +49,7 @@ export default function Container(props: { id: any; items: string[] }) {
   }, [id]);
 
   return (
-    <div>
+    <div className="inline-block">
       <SortableContext
         id={id}
         items={items}
@@ -56,47 +57,54 @@ export default function Container(props: { id: any; items: string[] }) {
       >
         <div
           ref={setNodeRef}
-          className="inline-block bg-back2 rounded-md p-4 m-2 min-w-[300px] w-fit"
+          className="bg-back2 rounded-md p-4 min-w-[400px] m-2 flex flex-col"
         >
-          {status.title}
-          <div>
+          <div className="flex flex-row justify-between items-start mb-2">
+            <div className="whitespace-break-spaces w-3/5">
+              <p className="text-xl font-bold text-col2 capitalize">
+                {status.title}
+              </p>
+              <p className="text-slate-400">{status.description}</p>
+            </div>
             <div>
               <button
-                className="bg-col2 p-2 m-2 rounded-md font-semibold"
+                className="hover:bg-col2/50 p-2 m-1 rounded-md"
                 onClick={() => {
                   if (status.id) {
                     setEditStatus(true);
                   }
                 }}
               >
-                Edit
+                <img src={editIcon} alt="delete" className="w-6" />
               </button>
               <button
-                className="bg-col2 p-2 m-2 rounded-md font-semibold"
+                className="hover:bg-col2/50 p-2 m-1 rounded-md"
                 onClick={() => {
                   if (status.id) {
                     setDeleteStatus(true);
                   }
                 }}
               >
-                Delete
+                <img src={trashIcon} alt="delete" className="w-6" />
+              </button>
+              <button
+                className="hover:bg-col2/50 p-2 m-1 rounded-md"
+                onClick={() => {
+                  if (status.id) {
+                    setAddTask(true);
+                  }
+                }}
+              >
+                <img src={addRowIcon} alt="delete" className="w-6" />
               </button>
             </div>
           </div>
-          <button
-            className="bg-col2 p-2 m-2 rounded-md font-semibold"
-            onClick={() => {
-              if (status.id) {
-                setAddTask(true);
-              }
-            }}
-          >
-            Add Task
-          </button>
+          <hr className="border-2 border-slate-600" />
           {items.map((id: string) => (
             <SortableItem
               key={id}
               id={id}
+              board_id={props.board_id}
               deleteCB={() => {
                 setCurrentTask(Number(id));
                 setDeleteTask(true);

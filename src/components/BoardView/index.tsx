@@ -118,15 +118,15 @@ export default function BoardUI(props: { board_id: number }) {
       </div>
       <hr className="border-back2 border-2 my-4" />
       <div className="flex items-center my-2">
-        <p className="text-3xl text-col2 font-bold">Stages</p>
+        <p className="text-4xl text-gray-300 font-bold">Stages</p>
         <button
           className="rounded-md hover:bg-back2 p-2 ml-2"
           onClick={() => setAddStatus(true)}
         >
-          <img src={addIcon} alt="add_status" className="w-8" />
+          <img src={addIcon} alt="add_status" className="w-10" />
         </button>
       </div>
-      <div className="overflow-auto whitespace-nowrap flex">
+      <div className="overflow-auto whitespace-nowrap w-full">
         {items && <DnDComponent board_id={board_id} items={items} />}
       </div>
       {/* Modals */}
