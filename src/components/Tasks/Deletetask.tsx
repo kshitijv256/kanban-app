@@ -21,7 +21,7 @@ export default function DeleteTask(props: {
   return (
     <div className="text-center">
       <h1 className="text-2xl text-col1 mb-2">
-        Do you want to delete this Task?
+        Do you want to delete Task with ID: {props.task_id} ?
       </h1>
       <p className="text-gray-300 my-2 text-lg">
         This action cannot be undone.

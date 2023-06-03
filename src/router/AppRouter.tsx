@@ -6,7 +6,6 @@ import Home from "../components/Home";
 import { User } from "../types/User";
 import SignUp from "../components/common/SignUp";
 import BoardUI from "../components/BoardView";
-import Playground from "../DnDComponent";
 
 export default function AppRouter(props: { currentUser: User }) {
   const { currentUser } = props;
@@ -17,7 +16,6 @@ export default function AppRouter(props: { currentUser: User }) {
     "/board/:boardId": ({ boardId }: { boardId: string }) => (
       <BoardUI board_id={Number(boardId)} />
     ),
-    // "/test": () => <Playground />,
     "*": () => <NotFound />,
   };
   const routeResult = useRoutes(routes);

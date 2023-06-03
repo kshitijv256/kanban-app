@@ -4,12 +4,8 @@ import { getBoard, getStatuses, getTasks } from "../../utils/apiUtils";
 import Modal from "../common/Modal";
 import EditBoard from "./EditBoard";
 import DeleteBoard from "./DeleteBoard";
-import AddStatus from "../common/AddStatus";
+import AddStatus from "../Status/AddStatus";
 import { Status } from "../../types/Status";
-import DeleteStatus from "./DeleteStatus";
-import EditStatus from "./EditStatus";
-import AddTask from "./AddTask";
-import DeleteTask from "./Deletetask";
 import { Task } from "../../types/Task";
 import { ItemsType } from "../../types/common";
 import Playground from "../../DnDComponent";
@@ -73,23 +69,12 @@ export default function BoardUI(props: { board_id: number }) {
   const [board, setBoard] = useState<Board>({} as Board);
   const [statuses, setStatuses] = useState<Status[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [currentStatus, setCurrentStatus] = useState<Status>({
-    id: 0,
-    title: "",
-    description: "",
-    board: board_id,
-  });
-  const [currentTask, setCurrentTask] = useState<number>(0);
   const [items, setItems] = useState<ItemsType | null>();
 
   // Modal States
   const [edit, setEdit] = useState<boolean>(false);
   const [deleteBoard, setDeleteBoard] = useState<boolean>(false);
   const [addStatus, setAddStatus] = useState<boolean>(false);
-  const [editStatus, setEditStatus] = useState<boolean>(false);
-  const [deleteStatus, setDeleteStatus] = useState<boolean>(false);
-  const [addTask, setAddTask] = useState<boolean>(false);
-  const [deleteTask, setDeleteTask] = useState<boolean>(false);
 
   useEffect(() => {
     fetchBoard(board_id, setBoard);
@@ -138,88 +123,7 @@ export default function BoardUI(props: { board_id: number }) {
           Add Status
         </button>
       </div>
-      <div className="overflow-auto whitespace-nowrap flex text-black">
-        {/* {statuses.map((status: Status) => (
-          <div
-            key={status.id}
-            className="inline-block bg-back2 rounded-md p-4 m-2 min-w-[300px] w-3/12 h-min"
-          >
-            <div className="flex justify-between">
-              <div>
-                <p className="text-col2 font-bold text-2xl">{status.title}</p>
-
-                <p className="text-col3 font-semibold text-lg">
-                  {status.description}
-                </p>
-              </div>
-              <div>
-                <button
-                  className="bg-col2 p-2 m-2 rounded-md font-semibold"
-                  onClick={() => {
-                    if (status.id) {
-                      setCurrentStatus(status);
-                      setEditStatus(true);
-                    }
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-col2 p-2 m-2 rounded-md font-semibold"
-                  onClick={() => {
-                    if (status.id) {
-                      setCurrentStatus(status);
-                      setDeleteStatus(true);
-                    }
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-            <button
-              className="bg-col2 p-2 m-2 rounded-md font-semibold"
-              onClick={() => {
-                if (status.id) {
-                  setCurrentStatus(status);
-                  setAddTask(true);
-                }
-              }}
-            >
-              Add Task
-            </button>
-            <div>
-              {tasks.map(
-                (task: Task) =>
-                  task.status_object?.id === status.id && (
-                    <div key={task.id} className="bg-col3 rounded-md p-4 m-2">
-                      <div className="flex justify-between">
-                        <div>
-                          <p className="text-col2 font-bold text-2xl">
-                            {task.title}
-                          </p>
-                          <p className="text-col3 font-semibold text-lg">
-                            {task.description}
-                          </p>
-                        </div>
-                        <div>
-                          <button
-                            className="bg-col2 p-2 m-2 rounded-md font-semibold"
-                            onClick={() => {
-                              setCurrentTask(task.id || 0);
-                              setDeleteTask(true);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )
-              )}
-            </div>
-          </div>
-        ))} */}
+      <div className="overflow-auto whitespace-nowrap flex">
         {items && <Playground board_id={board_id} items={items} />}
       </div>
       {/* Modals */}
@@ -233,25 +137,6 @@ export default function BoardUI(props: { board_id: number }) {
         <DeleteBoard
           board_id={board_id}
           closeCB={() => setDeleteBoard(false)}
-        />
-      </Modal>
-      <Modal open={editStatus} closeCB={() => setEditStatus(false)}>
-        <EditStatus status_id={currentStatus.id || 0} status={currentStatus} />
-      </Modal>
-      <Modal open={deleteStatus} closeCB={() => setDeleteStatus(false)}>
-        <DeleteStatus
-          status_id={currentStatus.id || 0}
-          closeCB={() => setDeleteStatus(false)}
-        />
-      </Modal>
-      <Modal open={addTask} closeCB={() => setAddTask(false)}>
-        <AddTask board_pk={board_id} status_id={currentStatus.id || 0} />
-      </Modal>
-      <Modal open={deleteTask} closeCB={() => setDeleteTask(false)}>
-        <DeleteTask
-          board_id={board_id}
-          task_id={currentTask || 0}
-          closeCB={() => setDeleteTask(false)}
         />
       </Modal>
     </div>
