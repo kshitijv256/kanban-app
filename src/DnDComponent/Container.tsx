@@ -27,7 +27,7 @@ const fetchStatus = async (
 };
 
 export default function Container(props: {
-  id: any;
+  id: string;
   board_id: number;
   items: string[];
 }) {

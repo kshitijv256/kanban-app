@@ -4,6 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { getTask } from "../utils/apiUtils";
 import { Task } from "../types/Task";
 import trashIcon from "../assets/icons/trash.svg";
+import { Link } from "raviger";
 
 const fetchTask = async (
   board_id: number,
@@ -53,9 +54,9 @@ export default function SortableItem(props: {
     <div ref={setNodeRef} style={style}>
       <div className="flex items-start justify-center rounded-md m-2 bg-col4 min-h-14">
         <div className="flex justify-between w-full">
-          <div>
+          <Link href={`/board/${props.board_id}/task/${props.id}`}>
             <Item id={props.id} board_id={props.board_id} />
-          </div>
+          </Link>
           <div className="flex h-min">
             <button
               onClick={props.deleteCB}

@@ -9,6 +9,7 @@ import {
   useSensors,
   DragEndEvent,
   DragStartEvent,
+  DragOverEvent,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
@@ -88,15 +89,15 @@ export default function DnDComponent(props: {
     setActiveId(`${id}`);
   }
 
-  function handleDragOver(event: any) {
+  function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
     const { id } = active;
-    const { id: overId } = over;
+    const { id: overId } = over || {};
 
     // Find the containers
 
-    const activeContainer = findContainer(id);
-    const overContainer = findContainer(overId);
+    const activeContainer = findContainer(`${id}`);
+    const overContainer = findContainer(`${overId}`);
 
     if (
       !activeContainer ||
@@ -108,18 +109,22 @@ export default function DnDComponent(props: {
     console.log(id, overId);
     console.log("active", activeContainer);
     console.log("over", overContainer);
-    updateTaskStatus(props.board_id, parseInt(id), parseInt(overContainer));
+    updateTaskStatus(
+      props.board_id,
+      parseInt(`${id}`),
+      parseInt(overContainer)
+    );
 
     setItems((prev) => {
       const activeItems = prev[activeContainer];
       const overItems = prev[overContainer];
 
       // Find the indexes for the items
-      const activeIndex = activeItems.indexOf(id);
-      const overIndex = overItems.indexOf(overId);
+      const activeIndex = activeItems.indexOf(`${id}`);
+      const overIndex = overItems.indexOf(`${overId}`);
 
       let newIndex;
-      if (overId in prev) {
+      if (`${overId}` in prev) {
         // We're at the root droppable of a container
         newIndex = overItems.length + 1;
       } else {
