@@ -3,6 +3,9 @@ import { Task } from "../../types/Task";
 import { getTask } from "../../utils/apiUtils";
 import editIcon from "../../assets/icons/edit.svg";
 import trashIcon from "../../assets/icons/trash.svg";
+import Modal from "../common/Modal";
+import DeleteTask from "./Deletetask";
+import EditTask from "./EditTask";
 
 const fetchTask = async (
   board_id: number,
@@ -15,6 +18,8 @@ const fetchTask = async (
 
 export default function TaskView(props: { id: number; board_id: number }) {
   const [task, setTask] = useState<Task | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     fetchTask(props.board_id, props.id, setTask);
@@ -36,10 +41,16 @@ export default function TaskView(props: { id: number; board_id: number }) {
                 {task.title}
               </p>
               <div>
-                <button className="hover:bg-col2/20 rounded p-2 mx-1">
+                <button
+                  className="hover:bg-col2/20 rounded p-2 mx-1"
+                  onClick={() => setShowEditModal(true)}
+                >
                   <img src={editIcon} className="w-6" alt="edit" />
                 </button>
-                <button className="hover:bg-col2/20 rounded p-2 mx-1">
+                <button
+                  className="hover:bg-col2/20 rounded p-2 mx-1"
+                  onClick={() => setShowDeleteModal(true)}
+                >
                   <img src={trashIcon} className="w-6" alt="trash" />
                 </button>
               </div>
@@ -56,6 +67,21 @@ export default function TaskView(props: { id: number; board_id: number }) {
           </div>
         </div>
       </div>
+      <Modal open={showEditModal} closeCB={() => setShowEditModal(false)}>
+        <EditTask
+          board_pk={props.board_id}
+          task={task}
+          setTaskCB={setTask}
+          closeCB={() => setShowEditModal(false)}
+        />
+      </Modal>
+      <Modal open={showDeleteModal} closeCB={() => setShowDeleteModal(false)}>
+        <DeleteTask
+          board_id={props.board_id}
+          task_id={props.id}
+          closeCB={() => setShowDeleteModal(false)}
+        />
+      </Modal>
     </div>
   );
 }
