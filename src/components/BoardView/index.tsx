@@ -131,7 +131,12 @@ export default function BoardUI(props: { board_id: number }) {
       </div>
       {/* Modals */}
       <Modal open={edit} closeCB={() => setEdit(false)}>
-        <EditBoard board_id={board_id} board={board} />
+        <EditBoard
+          board_id={board_id}
+          board={board}
+          setBoardCB={setBoard}
+          closeCB={() => setEdit(false)}
+        />
       </Modal>
       <Modal open={addStatus} closeCB={() => setAddStatus(false)}>
         <AddStatus board_id={board_id} />

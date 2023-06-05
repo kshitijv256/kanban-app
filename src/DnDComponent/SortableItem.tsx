@@ -44,12 +44,10 @@ export default function SortableItem(props: {
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: props.id });
-
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
   return (
     <div ref={setNodeRef} style={style}>
       <div className="flex items-start justify-center rounded-md m-2 bg-col4 min-h-14">

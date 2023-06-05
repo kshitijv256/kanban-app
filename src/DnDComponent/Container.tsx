@@ -114,7 +114,12 @@ export default function Container(props: {
         </div>
       </SortableContext>
       <Modal open={editStatus} closeCB={() => setEditStatus(false)}>
-        <EditStatus status_id={Number(id)} status={status} />
+        <EditStatus
+          status_id={Number(id)}
+          status={status}
+          setStatusCB={setStatus}
+          closeCB={() => setEditStatus(false)}
+        />
       </Modal>
       <Modal open={deleteStatus} closeCB={() => setDeleteStatus(false)}>
         <DeleteStatus

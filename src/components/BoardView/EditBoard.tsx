@@ -3,7 +3,12 @@ import { Board, validateBoard } from "../../types/Board";
 import { Error } from "../../types/common";
 import { updateBoard } from "../../utils/apiUtils";
 
-export default function EditBoard(props: { board_id: number; board: Board }) {
+export default function EditBoard(props: {
+  board_id: number;
+  board: Board;
+  setBoardCB: (board: Board) => void;
+  closeCB: () => void;
+}) {
   const [form, setForm] = useState<Board>(props.board);
   const [errors, setErrors] = useState<Error<Board>>({});
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +26,8 @@ export default function EditBoard(props: { board_id: number; board: Board }) {
         const data = await updateBoard(props.board_id, form);
         if (data) {
           console.log("Board updated successfully");
-          window.location.reload();
+          props.setBoardCB(data);
+          props.closeCB();
         }
       } catch (error) {
         console.log(error);

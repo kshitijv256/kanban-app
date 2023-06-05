@@ -31,6 +31,7 @@ export default function AddTask(props: {
         if (data) {
           console.log("Task created successfully");
           window.location.reload();
+          // navigate(`/board/${props.board_pk}/task/${data.id}`);
         }
       } catch (error) {
         console.log(error);

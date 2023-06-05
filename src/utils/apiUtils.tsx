@@ -119,7 +119,7 @@ export const getTask = (board_pk: number, id: number) => {
 };
 
 export const updateTask = (board_pk: number, id: number, data: any) => {
-  return request(`boards/${board_pk}/tasks/${id}/`, "PATCH", data);
+  return request(`boards/${board_pk}/tasks/${id}/`, "PUT", data);
 };
 
 export const deleteTask = (board_pk: number, id: number) => {

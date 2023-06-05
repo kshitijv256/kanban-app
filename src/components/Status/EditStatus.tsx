@@ -6,6 +6,8 @@ import { updateStatus } from "../../utils/apiUtils";
 export default function EditStatus(props: {
   status_id: number;
   status: Status;
+  setStatusCB: (status: Status) => void;
+  closeCB: () => void;
 }) {
   const [status, setStatus] = useState<Status>(props.status);
   const [errors, setErrors] = useState<Error<Status>>({});
@@ -24,7 +26,8 @@ export default function EditStatus(props: {
         const data = await updateStatus(props.status_id, status);
         if (data) {
           console.log("Status updated successfully");
-          window.location.reload();
+          props.setStatusCB(data);
+          props.closeCB();
         }
       } catch (error) {
         console.log(error);
@@ -53,6 +56,26 @@ export default function EditStatus(props: {
           />
           {errors.title && (
             <p className="text-red-500 text-xs italic">{errors.title}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="description"
+            className="block text-col2 text-sm font-bold mb-2"
+          >
+            Description
+          </label>
+          <input
+            type="text"
+            name="description"
+            id="description"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Status Description"
+            value={status.description}
+            onChange={handleChange}
+          />
+          {errors.description && (
+            <p className="text-red-500 text-xs italic">{errors.description}</p>
           )}
         </div>
         <div className="flex items-center justify-between">

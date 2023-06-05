@@ -94,6 +94,10 @@ export default function DnDComponent(props: {
     const { id } = active;
     const { id: overId } = over || {};
 
+    if (!over) {
+      return;
+    }
+
     // Find the containers
 
     const activeContainer = findContainer(`${id}`);
