@@ -33,12 +33,12 @@ export default function Container(props: {
 }) {
   const { id, items } = props;
   const [status, setStatus] = useState<Status>({} as Status);
-  const [currentTask, setCurrentTask] = useState<number>(0);
+  // const [currentTask, setCurrentTask] = useState<number>(0);
 
   const [editStatus, setEditStatus] = useState<boolean>(false);
   const [deleteStatus, setDeleteStatus] = useState<boolean>(false);
   const [addTask, setAddTask] = useState<boolean>(false);
-  const [deleteTask, setDeleteTask] = useState<boolean>(false);
+  // const [deleteTask, setDeleteTask] = useState<boolean>(false);
 
   const { setNodeRef } = useDroppable({
     id,
@@ -105,10 +105,10 @@ export default function Container(props: {
               key={id}
               id={id}
               board_id={props.board_id}
-              deleteCB={() => {
-                setCurrentTask(Number(id));
-                setDeleteTask(true);
-              }}
+              // deleteCB={() => {
+              //   setCurrentTask(Number(id));
+              //   setDeleteTask(true);
+              // }}
             />
           ))}
         </div>
@@ -130,13 +130,13 @@ export default function Container(props: {
       <Modal open={addTask} closeCB={() => setAddTask(false)}>
         <AddTask board_pk={status.board} status_id={Number(id)} />
       </Modal>
-      <Modal open={deleteTask} closeCB={() => setDeleteTask(false)}>
+      {/* <Modal open={deleteTask} closeCB={() => setDeleteTask(false)}>
         <DeleteTask
           board_id={status.board}
           task_id={currentTask || 0}
           closeCB={() => setDeleteTask(false)}
         />
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

@@ -77,6 +77,15 @@ export default function ListView(props: { board_id: number }) {
   const [edit, setEdit] = useState<boolean>(false);
   const [deleteBoard, setDeleteBoard] = useState<boolean>(false);
 
+  const [completed, setCompleted] = useState<Task[]>([]);
+
+  useEffect(() => {
+    const completed = localStorage.getItem("completed");
+    if (completed) {
+      setCompleted(JSON.parse(completed));
+    }
+  }, []);
+
   useEffect(() => {
     fetchBoard(board_id, setBoard);
     fetchStatuses(board_id, setStatuses);
@@ -121,14 +130,32 @@ export default function ListView(props: { board_id: number }) {
         <p className="text-4xl text-gray-300 font-bold">Tasks</p>
       </div>
       <div className="w-4/12 min-w-[300px]">
+        <h1 className="text-gray-300">Ongoing</h1>
         {items &&
           Object.keys(items).map((id: string) => (
-            <div>
+            <div key={id}>
               {items[id as keyof ListType].map((task: Task) => (
-                <ListTile task={task} />
+                <ListTile task={task} key={task.id} />
               ))}
             </div>
           ))}
+        <div>
+          <div className="flex">
+            <h1 className="text-gray-300">Completed</h1>
+            <button
+              className="ml-2 p-2 rounded hover:bg-col1/50"
+              onClick={() => {
+                localStorage.setItem("completed", JSON.stringify([]));
+                setCompleted([]);
+              }}
+            >
+              Clear
+            </button>
+          </div>
+          {completed.map((task: Task) => (
+            <ListTile task={task} key={task.id} />
+          ))}
+        </div>
       </div>
       {/* Modals */}
       <Modal open={edit} closeCB={() => setEdit(false)}>

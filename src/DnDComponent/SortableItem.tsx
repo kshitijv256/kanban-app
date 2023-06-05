@@ -40,7 +40,7 @@ export function Item(props: { id: string; board_id: number }) {
 export default function SortableItem(props: {
   id: string;
   board_id: number;
-  deleteCB: () => void;
+  // deleteCB: () => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: props.id });
@@ -56,12 +56,12 @@ export default function SortableItem(props: {
             <Item id={props.id} board_id={props.board_id} />
           </Link>
           <div className="flex h-min">
-            <button
+            {/* <button
               onClick={props.deleteCB}
               className="m-2 p-2 hover:bg-slate-500/50 rounded"
             >
               <img src={trashIcon} alt="trash" className="w-6" />
-            </button>
+            </button> */}
             <button
               {...attributes}
               {...listeners}

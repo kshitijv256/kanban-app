@@ -79,6 +79,7 @@ export default function TaskView(props: { id: number; board_id: number }) {
         <DeleteTask
           board_id={props.board_id}
           task_id={props.id}
+          task={task}
           closeCB={() => setShowDeleteModal(false)}
         />
       </Modal>

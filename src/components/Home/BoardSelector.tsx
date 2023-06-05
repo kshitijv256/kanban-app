@@ -9,5 +9,8 @@ export default function BoardSelector(props: { board_id: number }) {
   if (view === "table") {
     return <div>Table View</div>;
   }
+  if (view === "routine") {
+    return <div>Daily Routine View</div>;
+  }
   return <BoardUI board_id={props.board_id} />;
 }

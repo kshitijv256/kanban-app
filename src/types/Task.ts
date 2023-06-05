@@ -24,8 +24,8 @@ export const validateTask = (task: Task) => {
   if (task.description.length < 1) {
     errors.description = "Description is required";
   }
-  if (Date.parse(task.due_date) < Date.now() - 86400000) {
-    errors.due_date = "Due date should be in the future";
+  if (task.due_date.length < 1) {
+    errors.due_date = "Due date is required";
   }
   return errors;
 };

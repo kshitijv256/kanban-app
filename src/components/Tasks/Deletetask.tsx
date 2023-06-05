@@ -1,3 +1,5 @@
+import { Link, navigate } from "raviger";
+import { Task } from "../../types/Task";
 import { deleteTask } from "../../utils/apiUtils";
 
 const removeTask = async (board_id: number, id: number) => {
@@ -7,12 +9,21 @@ const removeTask = async (board_id: number, id: number) => {
 export default function DeleteTask(props: {
   board_id: number;
   task_id: number;
+  task: Task;
   closeCB: () => void;
 }) {
   const handleClick = async (del: boolean) => {
     if (del) {
       await removeTask(props.board_id, props.task_id);
-      window.location.reload();
+      let tasks = localStorage.getItem("completed");
+      let parsedTasks = JSON.parse(tasks || "[]");
+      if (parsedTasks.length > 0) {
+        parsedTasks = [...parsedTasks, props.task];
+      } else {
+        parsedTasks = [props.task];
+      }
+      localStorage.setItem("completed", JSON.stringify(parsedTasks));
+      navigate(`/board/${props.board_id}`);
     } else {
       props.closeCB();
     }
@@ -21,7 +32,7 @@ export default function DeleteTask(props: {
   return (
     <div className="text-center">
       <h1 className="text-2xl text-col1 mb-2">
-        Do you want to delete Task with ID: {props.task_id} ?
+        Marks this task as Completed ?
       </h1>
       <p className="text-gray-300 my-2 text-lg">
         This action cannot be undone.
