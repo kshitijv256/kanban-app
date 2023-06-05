@@ -1,58 +1,43 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
-  ArrowPathIcon,
   Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
+  CalendarIcon,
+  ListBulletIcon,
+  TableCellsIcon,
+  WindowIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { User } from "../../types/User";
 import { Link } from "raviger";
 
 // sample data
 const products = [
   {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
+    name: "Board",
+    description: "View all tasks in Board/Kanban format",
+    type: "board",
+    icon: WindowIcon,
   },
   {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
+    name: "List",
+    description: "View all tasks in List format",
+    type: "list",
+    icon: ListBulletIcon,
   },
   {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
+    name: "Table",
+    description: "View all tasks in Table format",
+    type: "table",
+    icon: TableCellsIcon,
   },
   {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
+    name: "Daily Routine",
+    description: "View all tasks in Daily Routine format",
+    type: "routine",
+    icon: CalendarIcon,
   },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
 function classNames(...classes: string[]) {
@@ -61,6 +46,21 @@ function classNames(...classes: string[]) {
 
 export default function Header(props: { currentUser: User }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [view, setView] = useState<string | null>(null);
+
+  useEffect(() => {
+    let view = localStorage.getItem("view");
+    if (view === null) {
+      view = "board";
+    }
+  }, []);
+
+  useEffect(() => {
+    if (view) {
+      localStorage.setItem("view", view);
+      window.location.reload();
+    }
+  }, [view]);
 
   return (
     <header className="bg-back2">
@@ -116,31 +116,16 @@ export default function Header(props: { currentUser: User }) {
                         />
                       </div>
                       <div className="flex-auto">
-                        <a
-                          href={item.href}
+                        <button
+                          onClick={() => setView(item.type)}
                           className="block font-semibold text-gray-200"
                         >
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </button>
                         <p className="mt-1 text-gray-400">{item.description}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 divide-x divide-gray-300/10 bg-back2">
-                  {callsToAction.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-200 hover:bg-col3/60"
-                    >
-                      <item.icon
-                        className="h-5 w-5 flex-none text-gray-400"
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
                   ))}
                 </div>
               </Popover.Panel>
@@ -158,12 +143,6 @@ export default function Header(props: { currentUser: User }) {
             className="text-sm font-semibold leading-6 text-gray-200"
           >
             About
-          </Link>
-          <Link
-            href="/contact"
-            className="text-sm font-semibold leading-6 text-gray-200"
-          >
-            Contact
           </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -227,11 +206,10 @@ export default function Header(props: { currentUser: User }) {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
+                        {[...products].map((item) => (
                           <Disclosure.Button
                             key={item.name}
-                            as="a"
-                            href={item.href}
+                            onClick={() => setView(item.type)}
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-200 hover:bg-col3/20"
                           >
                             {item.name}
@@ -252,12 +230,6 @@ export default function Header(props: { currentUser: User }) {
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-col3/30"
                 >
                   About
-                </Link>
-                <Link
-                  href="/contact"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-col3/30"
-                >
-                  Contact
                 </Link>
               </div>
               <div className="py-6">
