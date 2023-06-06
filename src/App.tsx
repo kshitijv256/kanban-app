@@ -18,7 +18,7 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <Header currentUser={currentUser} />
+      <Header currentUser={currentUser} setCurrentUserCB={setCurrentUser} />
       <AppRouter currentUser={currentUser} />
     </div>
   );

@@ -44,7 +44,10 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Header(props: { currentUser: User }) {
+export default function Header(props: {
+  currentUser: User;
+  setCurrentUserCB: (value: User) => void;
+}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [view, setView] = useState<string | null>(null);
 
@@ -151,7 +154,10 @@ export default function Header(props: { currentUser: User }) {
               className="text-sm font-semibold leading-6 text-gray-200"
               onClick={() => {
                 localStorage.removeItem("token");
-                window.location.reload();
+                props.setCurrentUserCB({
+                  username: "",
+                });
+                // navigate("/login");
               }}
             >
               Logout
@@ -238,7 +244,10 @@ export default function Header(props: { currentUser: User }) {
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-col3/20"
                     onClick={() => {
                       localStorage.removeItem("token");
-                      window.location.reload();
+                      props.setCurrentUserCB({
+                        username: "",
+                      });
+                      // navigate("/login");
                     }}
                   >
                     Logout

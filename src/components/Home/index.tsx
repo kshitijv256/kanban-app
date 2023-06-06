@@ -20,7 +20,7 @@ export default function Home(props: { currentUser: User }) {
     if (currentUser.username.length > 0) {
       fetchBoards(setBoards);
     }
-  }, [currentUser.username.length]);
+  }, [currentUser]);
 
   if (currentUser.username.length === 0) {
     return (
@@ -47,15 +47,18 @@ export default function Home(props: { currentUser: User }) {
       <h1 className="text-2xl">
         Hello, {currentUser.name ? currentUser.name : currentUser.username}
       </h1>
-      <button onClick={() => setNewBoard(true)} className="bg-col1 rounded p-2">
+      <button
+        onClick={() => setNewBoard(true)}
+        className="bg-col1 rounded p-2 my-2"
+      >
         Add board
       </button>
-      <div className="flex flex-col gap-4 p-4 w-fit">
+      <div className="flex gap-4 p-4 w-full">
         {boards.map((board) => (
           <Link
             href={`/board/${board.id}`}
             key={board.id}
-            className="bg-col2 rounded p-2"
+            className="bg-col2/70 hover:bg-col2/80 rounded p-2 w-[200px]"
           >
             {board.title}
             <br />
