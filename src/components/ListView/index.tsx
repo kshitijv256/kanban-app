@@ -135,7 +135,7 @@ export default function ListView(props: { board_id: number }) {
           Object.keys(items).map((id: string) => (
             <div key={id}>
               {items[id as keyof ListType].map((task: Task) => (
-                <ListTile task={task} key={task.id} />
+                <ListTile task={task} key={task.id} giveLink={true} />
               ))}
             </div>
           ))}
@@ -143,7 +143,7 @@ export default function ListView(props: { board_id: number }) {
           <div className="flex">
             <h1 className="text-gray-300">Completed</h1>
             <button
-              className="ml-2 p-2 rounded hover:bg-col1/50"
+              className="ml-2 px-2 rounded hover:bg-col3/50"
               onClick={() => {
                 localStorage.setItem("completed", JSON.stringify([]));
                 setCompleted([]);
@@ -153,7 +153,7 @@ export default function ListView(props: { board_id: number }) {
             </button>
           </div>
           {completed.map((task: Task) => (
-            <ListTile task={task} key={task.id} />
+            <ListTile task={task} key={task.id} giveLink={false} />
           ))}
         </div>
       </div>

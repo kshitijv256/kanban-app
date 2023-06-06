@@ -1,4 +1,4 @@
-// const API_BASE_URL = "https://tsapi.coronasafe.xyz/api/";
+// const API_BASE_URL = "https://kanban-apis.onrender.com/api/";
 const API_BASE_URL = "http://127.0.0.1:8000/api/";
 
 type requestType = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";

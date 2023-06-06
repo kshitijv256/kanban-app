@@ -1,4 +1,4 @@
-import { Link, navigate } from "raviger";
+import { navigate } from "raviger";
 import { Task } from "../../types/Task";
 import { deleteTask } from "../../utils/apiUtils";
 
