@@ -2,7 +2,6 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  CalendarIcon,
   ListBulletIcon,
   TableCellsIcon,
   WindowIcon,
@@ -31,12 +30,6 @@ const products = [
     description: "View all tasks in Table format",
     type: "table",
     icon: TableCellsIcon,
-  },
-  {
-    name: "Daily Routine",
-    description: "View all tasks in Daily Routine format",
-    type: "routine",
-    icon: CalendarIcon,
   },
 ];
 

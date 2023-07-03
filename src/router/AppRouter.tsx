@@ -7,11 +7,13 @@ import { User } from "../types/User";
 import SignUp from "../components/common/SignUp";
 import TaskView from "../components/Tasks/TaskView";
 import BoardSelector from "../components/Home/BoardSelector";
+import About from "../components/common/About";
 
 export default function AppRouter(props: { currentUser: User }) {
   const { currentUser } = props;
   const routes = {
     "/": () => <Home currentUser={currentUser} />,
+    "/about": () => <About />,
     "/signup": () => <SignUp />,
     "/login": () => <Login />,
     "/board/:boardId": ({ boardId }: { boardId: string }) => (
