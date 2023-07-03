@@ -240,7 +240,7 @@ export default function Header(props: {
                       props.setCurrentUserCB({
                         username: "",
                       });
-                      // navigate("/login");
+                      navigate("/login");
                     }}
                   >
                     Logout
