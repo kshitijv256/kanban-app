@@ -3,7 +3,6 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { getTask } from "../utils/apiUtils";
 import { Task } from "../types/Task";
-import trashIcon from "../assets/icons/trash.svg";
 import { Link } from "raviger";
 
 const fetchTask = async (

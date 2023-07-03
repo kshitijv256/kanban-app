@@ -12,7 +12,6 @@ import DeleteStatus from "../components/Status/DeleteStatus";
 import { Status } from "../types/Status";
 import { getStatus } from "../utils/apiUtils";
 import AddTask from "../components/Tasks/AddTask";
-import DeleteTask from "../components/Tasks/Deletetask";
 
 import addRowIcon from "../assets/icons/add-row.svg";
 import editIcon from "../assets/icons/edit.svg";
