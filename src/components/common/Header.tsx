@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { User } from "../../types/User";
-import { Link } from "raviger";
+import { Link, navigate } from "raviger";
 
 // sample data
 const products = [
@@ -150,7 +150,7 @@ export default function Header(props: {
                 props.setCurrentUserCB({
                   username: "",
                 });
-                // navigate("/login");
+                navigate("/login");
               }}
             >
               Logout
