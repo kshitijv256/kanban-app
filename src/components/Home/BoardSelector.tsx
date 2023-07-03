@@ -1,5 +1,6 @@
 import BoardUI from "../BoardView";
 import ListView from "../ListView";
+import TableView from "../TableView";
 
 export default function BoardSelector(props: { board_id: number }) {
   let view = localStorage.getItem("view");
@@ -7,7 +8,7 @@ export default function BoardSelector(props: { board_id: number }) {
     return <ListView board_id={props.board_id} />;
   }
   if (view === "table") {
-    return <div>Table View</div>;
+    return <TableView board_id={props.board_id} />;
   }
   if (view === "routine") {
     return <div>Daily Routine View</div>;

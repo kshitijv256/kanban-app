@@ -82,9 +82,13 @@ export default function ListView(props: { board_id: number }) {
   useEffect(() => {
     const completed = localStorage.getItem("completed");
     if (completed) {
-      setCompleted(JSON.parse(completed));
+      const completedTasks = JSON.parse(completed);
+      const filteredTasks = completedTasks.filter(
+        (task: Task) => task.board === board_id
+      );
+      setCompleted(filteredTasks);
     }
-  }, []);
+  }, [board_id]);
 
   useEffect(() => {
     fetchBoard(board_id, setBoard);

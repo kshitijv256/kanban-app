@@ -5,6 +5,7 @@ import CreateBoard from "./CreateBoard";
 import { getBoards } from "../../utils/apiUtils";
 import { Board } from "../../types/Board";
 import { Link } from "raviger";
+import addIcon from "../../assets/icons/add-gray.svg";
 
 const fetchBoards = async (setBoards: (value: Board[]) => void) => {
   const data = await getBoards(10, 0);
@@ -24,7 +25,7 @@ export default function Home(props: { currentUser: User }) {
 
   if (currentUser.username.length === 0) {
     return (
-      <div className="w-full text-center">
+      <div className="w-full text-center h-full">
         <h1 className="text-2xl">Hello, Guest</h1>
         <p>Please login to continue</p>
         <div className="mt-4">
@@ -44,25 +45,27 @@ export default function Home(props: { currentUser: User }) {
 
   return (
     <div>
-      <h1 className="text-2xl">
-        Hello, {currentUser.name ? currentUser.name : currentUser.username}
-      </h1>
-      <button
-        onClick={() => setNewBoard(true)}
-        className="bg-col1 rounded p-2 my-2"
-      >
-        Add board
-      </button>
+      <div className="flex justify-between">
+        <h1 className="text-2xl m-4">
+          Hello, {currentUser.name ? currentUser.name : currentUser.username}
+        </h1>
+        <button
+          onClick={() => setNewBoard(true)}
+          className="hover:bg-col2/30 rounded p-2 m-2"
+        >
+          <img src={addIcon} alt="Add" className="w-6" />
+        </button>
+      </div>
       <div className="flex gap-4 p-4 w-full">
         {boards.map((board) => (
           <Link
             href={`/board/${board.id}`}
             key={board.id}
-            className="bg-col2/70 hover:bg-col2/80 rounded p-2 w-[200px]"
+            className="bg-col3/70 hover:bg-col3/80 rounded p-3 w-[200px] shadow-md"
           >
-            {board.title}
-            <br />
-            {board.description}
+            <p className="text-xl text-col1 font-semibold">{board.title}</p>
+
+            <p className="text-gray-300">{board.description}</p>
           </Link>
         ))}
       </div>
