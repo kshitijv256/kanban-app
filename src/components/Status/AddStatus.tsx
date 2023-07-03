@@ -49,7 +49,7 @@ export default function AddStatus(props: { board_id: number }) {
             name="title"
             id="title"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Board Title"
+            placeholder="Status Title"
             value={status.title}
             onChange={handleChange}
           />
@@ -69,7 +69,7 @@ export default function AddStatus(props: { board_id: number }) {
             name="description"
             id="description"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Board Description"
+            placeholder="Status Description"
             value={status.description}
             onChange={handleChange}
           />
